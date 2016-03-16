@@ -1,0 +1,20 @@
+html
+    head
+        title npm Modules
+    style pre{display:inline;} td{padding:1px 15px;}
+body
+    h1 Modules
+    each files, packageName in distributionFiles
+        p
+            a(href='##{packageName}') #{packageName}
+    each files, packageName in distributionFiles
+        a(name='#{packageName}')
+        h2 #{packageName}
+        table
+            each file in files
+                tr
+
+                    td
+                        a(href='#{indexFile.urlPrefix}#{packageName}/#{file}') #{file}
+                    td
+                        pre "#{packageName}":"#{indexFile.urlPrefix}#{packageName}/#{file}"

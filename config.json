@@ -1,0 +1,31 @@
+{
+  "tempPath": "./tmp",
+  "outputPath": "./dist",
+  "indexFile":{
+    "path":"./dist/index.html",
+    "urlPrefix": "http://localhost:63342/node-module-packer/dist/"
+  },
+  "packages": {
+    "gulp": {
+      "url": "https://github.com/gulpjs/gulp.git",
+      "tags": false,
+      "branches": true
+    },
+    "less": {
+      "url": "https://github.com/less/less.js.git",
+      "tags": true,
+      "branches": false
+    },
+    "karma": {
+      "url": "https://github.com/karma-runner/karma.git",
+      "tags": [
+        "valid",
+        "0.1.x || >0.13.10"
+      ],
+      "branches": [
+        "master",
+        "fix/single-run-ready"
+      ]
+    }
+  }
+}

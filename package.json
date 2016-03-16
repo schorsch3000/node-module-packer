@@ -1,0 +1,27 @@
+{
+  "name": "node-module-packer",
+  "version": "0.1.0",
+  "description": "converts git-repositories containing node-modules to a directory structure containing tar-gz's for provate hosting via http",
+  "main": "index.js",
+  "scripts": {
+    "package": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:schorsch3000/node-module-packer.git"
+  },
+  "author": "Dirk Heilig",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/schorsch3000/node-module-packer/issues"
+  },
+  "dependencies": {
+    "fs-extra": "~0.26.7",
+    "glob-fs": "^0.1.6",
+    "jade": "^1.11.0",
+    "sanitize-filename": "^1.5.3",
+    "semver": "~5.1.0",
+    "shell-escape": "~0.2.0",
+    "shelljs": "~0.6.0"
+  }
+}
