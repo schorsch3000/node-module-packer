@@ -24,7 +24,7 @@ module.exports.tag = function (filter, list) {
                 for (var j in list) {
                     var listItem = list[j];
                     if (semver.satisfies(listItem, item)) {
-                        filteredList.push(semver.clean(listItem))
+                        filteredList.push(listItem)
                     } else {
                         console.log("does not satisfy range(", item, "):", listItem)
                     }

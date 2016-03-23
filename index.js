@@ -16,7 +16,7 @@ config.outputPath = fs.realpathSync(config.outputPath);
 fs.ensureFileSync(config.indexFile.path)
 config.indexFile.path = fs.realpathSync(config.indexFile.path)
 
-
+/*
 for (var packageName in config.packages) {
     var packageData = config.packages[packageName];
     var packageCheckoutDir = config.tempPath + '/' + packageName;
@@ -41,8 +41,8 @@ for (var packageName in config.packages) {
     tags.pop();
 
 
-    tags = filter.tag(packageData.tags, tags)
 
+    tags = filter.tag(packageData.tags, tags)
 
     var branches = exec("git branch -a | grep -v \"*\" | grep -v HEAD | sed 's#remotes/origin/##'  | sed 's/^..//'");
     branches = branches.output.split("\n").map(sanitizeList);
@@ -61,18 +61,25 @@ for (var packageName in config.packages) {
             var bundlePath = bundleDir + '/' + sanitize(bundleName, {replacement: '_'});
             if (!fs.existsSync(bundlePath) || repack) {
                 exec(shellescape(['git', 'checkout', version]))
-                exec(shellescape(['tar', '-czf', bundlePath, '-X', '.gitignore', '-X', '.npmignore', '--exclude=.git', '.']))
+
+
+                exec(shellescape(['tar', '-czf', bundlePath,  '--exclude=.git', '.']))
+
             } else {
                 console.log('skipping, already there and should not be repacked')
             }
+            var commitTime=exec('git log -1 --pretty=format:%ct')
+            commitTime=parseInt(commitTime.output)
+            fs.utimesSync(bundlePath,commitTime,commitTime)
             console.log(packageName, version, "end\n");
         })
     }
 
+
     packager(tags, packageName)
     packager(branches, packageName, true, 'dev-')
 }
-
+*/
 process.chdir(config.outputPath);
 config.distributionFiles = {}
 glob.readdirSync('**/*.tgz').forEach(function (item) {
@@ -86,5 +93,13 @@ glob.readdirSync('**/*.tgz').forEach(function (item) {
     file.name=item[1]
     config.distributionFiles[item[0]].push(file);
 })
+
+
+for(var i in config.distributionFiles){
+    var list=config.distributionFiles[i];
+    list.sort(function(a,b){
+        return b.stat.mtime - a.stat.mtime;
+    })
+}
 
 require('./indexFile.js')(config)
