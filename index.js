@@ -15,6 +15,8 @@ fs.mkdirsSync(config.outputPath);
 config.outputPath = fs.realpathSync(config.outputPath);
 fs.ensureFileSync(config.indexFile.path)
 config.indexFile.path = fs.realpathSync(config.indexFile.path)
+
+
 for (var packageName in config.packages) {
     var packageData = config.packages[packageName];
     var packageCheckoutDir = config.tempPath + '/' + packageName;
@@ -74,11 +76,15 @@ for (var packageName in config.packages) {
 process.chdir(config.outputPath);
 config.distributionFiles = {}
 glob.readdirSync('**/*.tgz').forEach(function (item) {
+    var file={}
+    file.stat=fs.statSync(item)
     item = item.split('/');
     if (!config.distributionFiles[item[0]]) {
         config.distributionFiles[item[0]] = []
     }
-    config.distributionFiles[item[0]].push(item[1]);
+
+    file.name=item[1]
+    config.distributionFiles[item[0]].push(file);
 })
 
 require('./indexFile.js')(config)

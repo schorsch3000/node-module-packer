@@ -1,20 +1,25 @@
 html
     head
         title npm Modules
-    style pre{display:inline;} td{padding:1px 15px;}
+    style pre{display:inline;} td{padding:1px 15px;} body{font-family: Arial;} p{font-size: 0.8em} td.h{padding-top:45px;}
 body
     h1 Modules
     each files, packageName in distributionFiles
         p
             a(href='##{packageName}') #{packageName}
-    each files, packageName in distributionFiles
-        a(name='#{packageName}')
-        h2 #{packageName}
-        table
-            each file in files
+    table
+        each files, packageName in distributionFiles
+            tbody(id='#{packageName}')
                 tr
+                    td.h
+                        a(name='#{packageName}')
+                        h2 #{packageName}
+                each file in files
+                    tr
 
-                    td
-                        a(href='#{indexFile.urlPrefix}#{packageName}/#{file}') #{file}
-                    td
-                        pre "#{packageName}":"#{indexFile.urlPrefix}#{packageName}/#{file}"
+                        td
+                            a(href='#{indexFile.urlPrefix}#{packageName}/#{file.name}') #{file.name}
+                        td
+                            pre "#{packageName}":"#{indexFile.urlPrefix}#{packageName}/#{file.name}"
+                        td
+                            p #{file.stat.ctime}
