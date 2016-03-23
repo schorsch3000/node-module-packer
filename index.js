@@ -48,14 +48,15 @@ for (var packageName in config.packages) {
 
     branches = filter.branch(packageData.branches, branches)
 
-    var packager = function (versions, packageName, repack) {
+    var packager = function (versions, packageName, repack, prefix) {
+        prefix = prefix || ''
         repack = !!repack;
         versions.forEach(function (version) {
             console.log(packageName, version, "begin");
-            var bundleName = packageName + '-' + version + '.tgz'
+            var bundleName = packageName + '-' + prefix + version + '.tgz'
             var bundleDir = config.outputPath + '/' + packageName;
             fs.mkdirsSync(bundleDir)
-            var bundlePath = bundleDir + '/' + sanitize(bundleName,{replacement:'_'});
+            var bundlePath = bundleDir + '/' + sanitize(bundleName, {replacement: '_'});
             if (!fs.existsSync(bundlePath) || repack) {
                 exec(shellescape(['git', 'checkout', version]))
                 exec(shellescape(['tar', '-czf', bundlePath, '-X', '.gitignore', '-X', '.npmignore', '--exclude=.git', '.']))
@@ -67,7 +68,7 @@ for (var packageName in config.packages) {
     }
 
     packager(tags, packageName)
-    packager(branches, packageName, true)
+    packager(branches, packageName, true, 'dev-')
 }
 
 process.chdir(config.outputPath);
